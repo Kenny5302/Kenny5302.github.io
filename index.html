@@ -176,7 +176,7 @@ td,th{text-align:right;padding:5px 6px;border-bottom:1px solid var(--line)}th{co
   <div class="wrap">
     <div class="eyebrow">Software engineer · UC Davis B.S. Computer Science</div>
     <h1>I build tools that<br><span>make tech make sense.</span></h1>
-    <p class="lead">I build and deploy API-integrated Python tools, and I explain technical concepts to people who don't speak tech. Two software engineering internships, four shipped projects, one pharmacy where I'm the one who fixes the WiFi.</p>
+    <p class="lead">I build and deploy API-integrated Python tools, and I explain technical concepts to people who don't speak tech. Two software engineering internships, four projects built, one pharmacy where I'm the one who fixes the WiFi.</p>
     <div class="roles" aria-live="off"><span id="role"></span><i></i></div>
     <div class="cta"><a class="btn p" href="#work">See what I've built ↓</a><a class="btn" href="https://github.com/Kenny5302" target="_blank" rel="noopener">GitHub</a><a class="btn" href="https://linkedin.com/in/kennethtang530" target="_blank" rel="noopener">LinkedIn</a></div>
   </div>
@@ -194,7 +194,7 @@ td,th{text-align:right;padding:5px 6px;border-bottom:1px solid var(--line)}th{co
     </button>
     <button class="card reveal" data-p="stock" aria-label="Open Stock Helper walkthrough">
       <div class="vis"><div class="mv"><span class="n">Chrome</span><span class="ar"></span><span class="n">FastAPI</span><span class="ar"></span><span class="n">Finnhub</span></div></div>
-      <h3>Stock Helper</h3><p>A Chrome extension that brings live financial data onto any page, backed by a cached FastAPI service.</p>
+      <h3>Stock Helper</h3><p>A Chrome extension that adds a beginner-friendly stock snapshot to Yahoo Finance pages, backed by a cached FastAPI service.</p>
       <div class="tags"><span class="tag">JavaScript</span><span class="tag">FastAPI</span><span class="tag">REST</span><span class="tag">Chrome API</span></div>
       <div class="more">See the data flow <span>→</span></div>
     </button>
@@ -285,25 +285,25 @@ td,th{text-align:right;padding:5px 6px;border-bottom:1px solid var(--line)}th{co
 
 <template id="t-stock">
   <h2>Stock Helper</h2>
-  <p class="one">Financial data <b>right where you're reading</b>, without leaving the page. A Chrome extension talks to my own FastAPI server, which talks to Finnhub.</p>
+  <p class="one">A plain-English <b>stock snapshot for beginners</b>, right on the Yahoo Finance page you're already reading. A Chrome extension asks my own FastAPI server, which pulls from Finnhub.</p>
   <div class="stage"><h4>① Click "Request" and watch the data travel</h4>
     <div class="browser">
-      <div class="pg">Any web page…<br><br>Apple (<mark>AAPL</mark>) shares rose after the company announced…</div>
-      <div class="sd" id="sd"><div class="sk-l" style="width:40%;background:var(--line)"></div><div class="sk-l" style="width:90%"></div><div class="sk-l" style="width:70%"></div><div class="sk-l" style="width:80%"></div></div>
+      <div class="pg"><span style="font:11px ui-monospace,monospace">finance.yahoo.com/quote/AAPL</span><br><br>The extension notices you're viewing <mark>AAPL</mark> and opens a panel beside the page.</div>
+      <div class="sd" id="sd"></div>
     </div>
     <div class="flow" id="fl">
-      <div class="fn" data-i="0"><b>Extension</b><small>content script</small></div><div class="fa"><i></i></div>
+      <div class="fn" data-i="0"><b>Extension</b><small>content script + worker</small></div><div class="fa"><i></i></div>
       <div class="fn" data-i="1"><b>FastAPI</b><small>my server</small></div><div class="fa"><i></i></div>
-      <div class="fn" data-i="2"><b>Cache</b><small>in-memory · TTL</small></div><div class="fa"><i></i></div>
-      <div class="fn" data-i="3"><b>Finnhub</b><small>REST API</small></div>
+      <div class="fn" data-i="2"><b>Cache</b><small>10-min TTL</small></div><div class="fa"><i></i></div>
+      <div class="fn" data-i="3"><b>Finnhub</b><small>3 calls</small></div>
     </div>
-    <div class="res" id="res" style="min-height:56px;line-height:1.5">Press <b>Request AAPL</b> and I'll narrate each step. The bars in the page's side panel are placeholders for the real data it shows.</div>
+    <div class="res" id="res" style="min-height:56px;line-height:1.5">Press <b>Request AAPL</b> and I'll narrate each step. The panel on the right shows the sections the real extension displays; values are left out.</div>
     <div class="ctl"><button class="btn" id="req">⚡ Request AAPL</button><button class="btn" id="ttl">⏱ Let cache expire</button></div>
   </div>
   <div class="pts">
-    <div class="pt"><b>Cache with a TTL</b>Repeat requests within the window are answered instantly from memory: fresher than guessing, cheaper than re-fetching.</div>
-    <div class="pt"><b>Handles dynamic pages</b>A MutationObserver notices content that loads after the page does, so the panel keeps working.</div>
-    <div class="pt"><b>Remembers your state</b>Panel state persists via Chrome local storage, and the code is documented for extension.</div>
+    <div class="pt"><b>Three calls, one response</b>The backend combines Finnhub's company profile, fundamental metrics and recent news into a single payload for the panel.</div>
+    <div class="pt"><b>10-minute TTL cache</b>Keeps data fresh while respecting API rate limits.</div>
+    <div class="pt"><b>Follows you as you browse</b>A MutationObserver detects ticker changes without a page reload, and the panel remembers whether you collapsed it.</div>
   </div>
   <p style="margin-top:16px"><a class="btn" href="https://github.com/Kenny5302/stock-helper" target="_blank" rel="noopener">View on GitHub →</a></p>
 </template>
@@ -449,27 +449,29 @@ function initStock(t){
   let cached=false,busy=false;
   const hot=(i,on)=>nodes[i].classList.toggle('hot',on);
   const go=i=>{arrows[i].classList.remove('go');void arrows[i].offsetWidth;arrows[i].classList.add('go')};
-  const skeleton=()=>{sd.innerHTML='<div class="sk-l" style="width:40%;background:var(--line)"></div><div class="sk-l" style="width:90%"></div><div class="sk-l" style="width:70%"></div><div class="sk-l" style="width:80%"></div>'};
-  const filled=()=>{sd.innerHTML='<div class="sk-l full" style="width:40%"></div><div class="sk-l full v2" style="width:90%"></div><div class="sk-l full" style="width:70%"></div><div class="sk-l full v2" style="width:80%"></div>'};
+  const SEC=[['Company snapshot',['Name','Industry','Website','Market cap']],['Key metrics',['P/E (TTM)','EPS (TTM)','52-week high / low','Beta']],['Recent events',['Headline 1','Headline 2','… up to 5 from the past week']]];
+  const panel=(on)=>{sd.innerHTML=`<div id="sdt" style="font:600 11px ui-monospace,monospace;color:var(--a)">${on?'AAPL · loaded':'AAPL · loading…'}</div>`+SEC.map(([h,r])=>`<div style="font:600 10px ui-monospace,monospace;color:var(--mute);margin-top:6px;text-transform:uppercase;letter-spacing:.08em">${h}</div>`+r.map(l=>`<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:11px"><span>${l}</span>${on?'<span class="sk-l full" style="width:34px;height:8px;flex:none"></span>':'<span class="sk-l" style="width:34px;height:8px;flex:none"></span>'}</div>`).join('')).join('')};
+  const skeleton=()=>panel(false),filled=()=>panel(true);
+  panel(false);
   const say=h=>{res.innerHTML=h};
-  const title=(txt)=>{let l=$('#sdt');if(!l){l=document.createElement('div');l.id='sdt';l.style.cssText='font:600 11px ui-monospace,monospace;color:var(--a);margin-bottom:4px';sd.prepend(l)}l.textContent=txt};
+  const title=()=>{};
   $('#req').onclick=async()=>{
-    if(busy)return;busy=true;skeleton();title('AAPL · loading…');
-    say('<b>① You see "AAPL" on a page.</b> The extension asks my server for AAPL\'s data.');
+    if(busy)return;busy=true;skeleton();
+    say('<b>① You open a Yahoo Finance page for AAPL.</b> The extension detects the ticker and its background worker asks my server for a summary.');
     hot(0,true);await sleep(1400);go(0);await sleep(700);hot(0,false);hot(1,true);
-    say('<b>② My FastAPI server receives the request</b> and checks its cache first.');await sleep(1500);go(1);await sleep(700);hot(1,false);hot(2,true);
+    say('<b>② My FastAPI server receives the request</b> at one endpoint, <code>/api/summary</code>, and checks its cache first.');await sleep(1500);go(1);await sleep(700);hot(1,false);hot(2,true);
     if(t!==token)return;
     if(cached){
-      say('<b>③ <span class="hit" style="color:var(--ok)">CACHE HIT</span>:</b> AAPL was fetched recently, so the server answers from memory. <b>Finnhub is never called</b>: faster, and saves API usage.');
+      say('<b>③ <span class="hit" style="color:var(--ok)">CACHE HIT</span>:</b> AAPL was fetched within the last 10 minutes, so the server answers from memory. <b>Finnhub is never called</b>: faster, and it respects rate limits.');
       await sleep(2600);
     }else{
-      say('<b>③ <span style="color:var(--amber)">CACHE MISS</span>:</b> nothing stored for AAPL, so the server has to ask Finnhub.');await sleep(1700);
+      say('<b>③ <span style="color:var(--amber)">CACHE MISS</span>:</b> nothing fresh stored for AAPL, so the server has to ask Finnhub.');await sleep(1700);
       hot(2,false);go(2);await sleep(700);hot(3,true);
-      say('<b>④ Finnhub replies</b> with the financial data. The server saves a copy with a <i>time-to-live</i> (how long it stays fresh) and passes it back.');await sleep(2400);cached=true;
+      say('<b>④ The server makes three Finnhub calls</b> (company profile, fundamental metrics, a week of news), combines them into one response, and caches it for 10 minutes.');await sleep(2400);cached=true;
     }
     if(t!==token)return;
-    nodes.forEach((_,i)=>hot(i,false));filled();title('AAPL · loaded');
-    say('<b>⑤ The data appears in the side panel on the page.</b> Press Request again to see a cache hit, or expire the cache to start over.');busy=false;
+    nodes.forEach((_,i)=>hot(i,false));filled();
+    say('<b>⑤ The panel fills in:</b> company snapshot, key metrics and recent headlines, with a note that this is educational, not financial advice. Press Request again to see a cache hit, or expire the cache to start over.');busy=false;
   };
   $('#ttl').onclick=()=>{cached=false;res.innerHTML='Cache expired. The next request will fetch fresh data.'};
 }
