@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kenneth Tang — Software Engineer</title>
+<meta name="description" content="Kenneth Tang: Computer Science graduate (UC Davis) who builds API-integrated Python tools and explains technical concepts to non-technical audiences.">
+<style>
+:root{
+  --bg:#0a0c11; --bg2:#10131b; --card:#141823; --line:#232a3a; --text:#e8ecf4; --mute:#8f9ab0;
+  --a:#5eead4; --b:#8b7cff; --warn:#ff6b7a; --ok:#4ade80; --amber:#fbbf24;
+  --grad:linear-gradient(120deg,var(--a),var(--b));
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;overflow-x:hidden}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+#glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(139,124,255,.14),transparent 65%);transform:translate(-50%,-50%);left:50%;top:30%}
+nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:rgba(10,12,17,.7);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:56px}
+nav b{letter-spacing:.02em}
+nav a{color:var(--mute);text-decoration:none;margin-left:20px;font-size:14px}
+nav a:hover{color:var(--text)}
+.hero{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden}
+#net{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.hero .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:40px}
+.eyebrow{color:var(--a);font:600 13px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase}
+h1{font-size:clamp(40px,8vw,84px);line-height:1.02;margin:18px 0;letter-spacing:-.03em}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(17px,2.2vw,21px);color:var(--mute);max-width:640px}
+.roles{margin-top:22px;font:500 15px ui-monospace,Menlo,monospace;color:var(--text);min-height:24px}
+.roles i{display:inline-block;width:8px;height:1em;background:var(--a);margin-left:3px;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.btn{padding:12px 20px;border-radius:12px;text-decoration:none;font-weight:600;font-size:15px;border:1px solid var(--line);background:var(--card);transition:.2s;cursor:pointer;color:var(--text);font-family:inherit}
+.btn:hover{transform:translateY(-2px);border-color:var(--a)}
+.btn.p{background:var(--grad);color:#07090d;border:0}
+section{position:relative;z-index:1;padding:84px 0}
+h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;margin-bottom:8px}
+.sub{color:var(--mute);margin-bottom:36px;max-width:620px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:20px}
+.card{all:unset;box-sizing:border-box;cursor:pointer;display:block;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;position:relative;overflow:hidden;transition:transform .25s,border-color .25s}
+.card:hover,.card:focus-visible{transform:translateY(-6px);border-color:var(--a)}
+.card:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(400px circle at var(--mx,50%) var(--my,0%),rgba(94,234,212,.12),transparent 60%);opacity:0;transition:.3s}
+.card:hover::before{opacity:1}
+.card .vis{height:130px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);margin-bottom:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.card h3{font-size:21px;margin-bottom:6px}
+.card p{color:var(--mute);font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tag{font:12px ui-monospace,Menlo,monospace;color:var(--a);border:1px solid rgba(94,234,212,.3);padding:3px 9px;border-radius:99px}
+.more{margin-top:16px;color:var(--a);font-weight:600;font-size:14px}
+.more span{display:inline-block;transition:.2s}
+.card:hover .more span{transform:translateX(6px)}
+/* mini visuals */
+.mv{display:flex;align-items:center;gap:10px;font:11px ui-monospace,monospace;color:var(--mute)}
+.mv .n{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--text)}
+.mv .ar{width:26px;height:2px;background:var(--line);position:relative;overflow:hidden}
+.mv .ar::after{content:"";position:absolute;top:0;left:-8px;width:8px;height:2px;background:var(--a);animation:run 1.4s linear infinite}
+@keyframes run{to{left:26px}}
+.bubble{background:var(--card);border:1px solid var(--line);padding:6px 10px;border-radius:12px;font-size:11px;color:var(--text)}
+/* timeline */
+.tl{border-left:2px solid var(--line);padding-left:26px;display:grid;gap:34px}
+.tl>div{position:relative}
+.tl>div::before{content:"";position:absolute;left:-34px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--a);box-shadow:0 0 0 5px rgba(94,234,212,.15)}
+.tl h3{font-size:20px}.tl .meta{color:var(--mute);font-size:14px;margin:2px 0 10px}
+.tl ul{padding-left:18px;color:#c4cbdb;display:grid;gap:6px;font-size:15px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:6px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:14px;transition:.2s}
+.chip:hover{border-color:var(--b);transform:translateY(-2px)}
+.sk{margin-bottom:20px}.sk h4{font-size:12px;color:var(--mute);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.cred{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;font-size:15px}
+.cred small{display:block;color:var(--mute)}
+footer{border-top:1px solid var(--line);padding:60px 0;text-align:center;position:relative;z-index:1}
+footer h2{margin-bottom:18px}
+footer .cta{justify-content:center}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+
+/* ===== modal ===== */
+#ov{position:fixed;inset:0;z-index:50;background:rgba(5,6,9,.82);backdrop-filter:blur(10px);display:none;overflow-y:auto;opacity:0;transition:opacity .3s}
+#ov.show{display:block}#ov.vis{opacity:1}
+.panel{max-width:960px;margin:40px auto;background:var(--bg2);border:1px solid var(--line);border-radius:24px;padding:32px;transform:translateY(40px) scale(.97);transition:transform .45s cubic-bezier(.2,.9,.3,1.2)}
+#ov.vis .panel{transform:none}
+@media(max-width:600px){.panel{margin:0;border-radius:0;padding:22px 16px;min-height:100vh}}
+.x{position:sticky;top:0;float:right;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:20px;cursor:pointer}
+.x:hover{border-color:var(--warn)}
+.panel h2{font-size:clamp(26px,4vw,36px)}
+.one{font-size:clamp(18px,2.4vw,22px);margin:10px 0 26px;max-width:700px}
+.one b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stage{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:22px;margin:18px 0}
+.stage h4{font:600 12px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:14px}
+.pts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:8px}
+.pt{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:14px;color:#c4cbdb}
+.pt b{display:block;color:var(--text);margin-bottom:4px}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+.status{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;border:1px solid var(--amber);color:var(--amber);margin-left:8px;vertical-align:middle}
+/* chat */
+.chat{display:grid;gap:10px;min-height:250px;align-content:start}
+.msg{max-width:78%;padding:10px 14px;border-radius:16px;font-size:14px;opacity:0;transform:translateY(10px);transition:.4s}
+.msg.in{opacity:1;transform:none}
+.msg.u{justify-self:end;background:var(--b);color:#0a0c11;border-bottom-right-radius:4px}
+.msg.a{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.sys{justify-self:center;max-width:100%;font:12px ui-monospace,monospace;border:1px dashed var(--ok);color:var(--ok);background:transparent}
+.dots{display:flex;flex-wrap:wrap;gap:6px;max-width:300px}
+.dot{width:20px;height:20px;border-radius:50%;background:var(--ok);transform:scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.dot.bad{background:var(--warn)}
+.dots.go .dot{transform:scale(1)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:600px){.cmp{grid-template-columns:1fr}}
+.cmp .big{font:700 30px ui-monospace,monospace;margin:10px 0 2px}
+.cmp .big.bad{color:var(--warn)}.cmp .big.ok{color:var(--ok)}
+.cmp .cap{color:var(--mute);font-size:13px;margin-bottom:12px}
+/* flow */
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;justify-content:center}
+.fn{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-align:center;font-size:13px;min-width:112px;transition:.3s}
+.fn b{display:block;font-size:14px}.fn small{color:var(--mute)}
+.fn.hot{border-color:var(--a);box-shadow:0 0 24px rgba(94,234,212,.25)}
+.fa{width:44px;display:flex;align-items:center}
+.fa i{display:block;width:100%;height:2px;background:var(--line);position:relative;overflow:hidden}
+.fa i.go::after{content:"";position:absolute;left:-12px;top:0;width:12px;height:2px;background:var(--a);animation:run2 .6s linear forwards}
+@keyframes run2{to{left:44px}}
+@media(max-width:700px){.flow{flex-direction:column;align-items:center}.fa{width:2px;height:28px}.fa i{width:2px;height:100%}.fa i.go::after{width:2px;height:12px;left:0;top:-12px;animation:run3 .6s linear forwards}@keyframes run3{to{top:28px}}}
+.browser{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);display:grid;grid-template-columns:1.2fr 1fr;min-height:150px;margin-bottom:18px}
+.browser .pg{padding:14px;font-size:13px;color:var(--mute)}
+.browser .pg mark{background:rgba(139,124,255,.3);color:var(--text);padding:0 4px;border-radius:4px}
+.browser .sd{border-left:1px solid var(--line);padding:14px;background:var(--bg2);display:grid;gap:8px;align-content:start}
+.sk-l{height:12px;border-radius:6px;background:var(--line);position:relative;overflow:hidden}
+.sk-l::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);animation:sh 1.2s infinite}
+@keyframes sh{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.sk-l.full{background:var(--a);opacity:.85}.sk-l.full::after{display:none}
+.sk-l.full.v2{background:var(--b)}
+.res{font:13px ui-monospace,monospace;margin-top:12px;min-height:20px;color:var(--mute)}
+.res b.hit{color:var(--ok)}.res b.miss{color:var(--amber)}
+/* digest */
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.dg{grid-template-columns:1fr}}
+.box{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--card);font-size:13px}
+.box h5{font:600 11px ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.box.math h5{color:var(--a)}.box.ai h5{color:var(--b)}
+table{width:100%;border-collapse:collapse;font:12px ui-monospace,monospace}
+td,th{text-align:right;padding:5px 6px;border-bottom:1px solid var(--line)}th{color:var(--mute);font-weight:500}td:first-child,th:first-child{text-align:left}
+.bar{height:6px;border-radius:3px;background:var(--a);width:0;transition:width 1s}
+.dgtxt{min-height:150px;font-size:13px;color:#c4cbdb;white-space:pre-wrap}
+.guard{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.guard span{font-size:11px;border:1px solid var(--b);color:var(--b);padding:2px 8px;border-radius:99px}
+/* lstore */
+.rows{display:grid;gap:8px}
+.rec{display:grid;grid-template-columns:90px 1fr 1fr;gap:8px;align-items:center;font:12px ui-monospace,monospace;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;animation:pop .5s}
+.rec.base{border-color:var(--a)}
+.rec.tail{margin-left:clamp(0px,calc(var(--d)*18px),90px);border-color:var(--b)}
+.rec .ptr{color:var(--amber)}
+@keyframes pop{from{opacity:0;transform:translateX(-14px)}}
+.rec.cur{box-shadow:0 0 0 1px var(--ok),0 0 20px rgba(74,222,128,.2)}
+.tree{display:flex;flex-direction:column;align-items:center;gap:22px}
+.lv{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.nd{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;font:12px ui-monospace,monospace;transition:.3s;min-width:80px;text-align:center}
+.nd.on{border-color:var(--ok);background:rgba(74,222,128,.1);color:var(--ok);transform:scale(1.08)}
+.nd.rng{border-color:var(--b);background:rgba(139,124,255,.12);color:var(--b)}
+.ctl{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.ctl .btn{padding:8px 14px;font-size:13px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="glow"></div>
+<nav><div class="wrap"><b>Kenneth Tang</b><div><a href="#work">Projects</a><a href="#exp">Experience</a><a href="#skills">Skills</a><a href="#contact">Contact</a></div></div></nav>
+
+<header class="hero">
+  <canvas id="net"></canvas>
+  <div class="wrap">
+    <div class="eyebrow">Software engineer · UC Davis B.S. Computer Science</div>
+    <h1>I build tools that<br><span>make tech make sense.</span></h1>
+    <p class="lead">I build and deploy API-integrated Python tools, and I explain technical concepts to people who don't speak tech. Two software engineering internships, four shipped projects, one pharmacy where I'm the one who fixes the WiFi.</p>
+    <div class="roles" aria-live="off"><span id="role"></span><i></i></div>
+    <div class="cta"><a class="btn p" href="#work">See what I've built ↓</a><a class="btn" href="https://github.com/Kenny5302" target="_blank" rel="noopener">GitHub</a><a class="btn" href="https://linkedin.com/in/kennethtang530" target="_blank" rel="noopener">LinkedIn</a></div>
+  </div>
+</header>
+
+<section id="work"><div class="wrap">
+  <h2 class="reveal">Projects, explained visually</h2>
+  <p class="sub reveal">Click any project. Each one opens a short animated walkthrough, so you can see what it does without reading a word of code.</p>
+  <div class="grid">
+    <button class="card reveal" data-p="sutter" aria-label="Open Sutter Assist walkthrough">
+      <div class="vis"><div class="mv"><span class="bubble">Do you do AC repair?</span><span class="ar"></span><span class="n">AI</span><span class="ar"></span><span class="n">✉ owner</span></div></div>
+      <h3>Sutter Assist</h3><p>An AI receptionist for local auto and HVAC shops that never lets a customer's call go unanswered, and never makes things up.</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Claude API</span><span class="tag">Render</span></div>
+      <div class="more">Watch it work <span>→</span></div>
+    </button>
+    <button class="card reveal" data-p="stock" aria-label="Open Stock Helper walkthrough">
+      <div class="vis"><div class="mv"><span class="n">Chrome</span><span class="ar"></span><span class="n">FastAPI</span><span class="ar"></span><span class="n">Finnhub</span></div></div>
+      <h3>Stock Helper</h3><p>A Chrome extension that brings live financial data onto any page, backed by a cached FastAPI service.</p>
+      <div class="tags"><span class="tag">JavaScript</span><span class="tag">FastAPI</span><span class="tag">REST</span><span class="tag">Chrome API</span></div>
+      <div class="more">See the data flow <span>→</span></div>
+    </button>
+    <button class="card reveal" data-p="digest" aria-label="Open Portfolio Digest walkthrough">
+      <div class="vis"><div class="mv"><span class="n">CSV</span><span class="ar"></span><span class="n">Pandas</span><span class="ar"></span><span class="n">Claude</span></div></div>
+      <h3>Portfolio Digest</h3><p>A daily portfolio summary where the math is computed by code and the AI only writes the words.</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Claude API</span></div>
+      <div class="more">Math vs. words <span>→</span></div>
+    </button>
+    <button class="card reveal" data-p="lstore" aria-label="Open L-Store walkthrough">
+      <div class="vis"><div class="mv"><span class="n">base</span><span class="ar"></span><span class="n">tail</span><span class="ar"></span><span class="n">tail</span></div></div>
+      <h3>L-Store Database</h3><p>A column-store database engine built from scratch with a team of four. Updates never overwrite; they chain.</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">B-Tree</span><span class="tag">SQL concepts</span></div>
+      <div class="more">Play with it <span>→</span></div>
+    </button>
+  </div>
+  <p class="note reveal" style="margin-top:22px">More on <a href="https://github.com/Kenny5302" target="_blank" rel="noopener" style="color:var(--a)">GitHub</a>, including a Java experiment layer on the MASON agent-based simulation framework.</p>
+</div></section>
+
+<section id="exp" style="background:var(--bg2)"><div class="wrap two">
+  <div>
+    <h2 class="reveal">Experience</h2><p class="sub reveal">Real software, real users.</p>
+    <div class="tl">
+      <div class="reveal"><h3>Software Engineering Intern · GTL</h3><div class="meta">Stockton, CA · Summers 2023 &amp; 2024</div>
+        <ul>
+          <li>Built a FastAPI integration with Samsara for trucking logistics, pulling data like driver hours and miles driven.</li>
+          <li>Developed Python dashboards that visualize driver hours, dispatch records and compliance metrics for about 10 internal users (dispatchers and operations staff).</li>
+          <li>Maintained and upgraded legacy Python fleet software covering about 150 trucks: diagnosed bugs, found data-integrity issues, shipped fixes.</li>
+          <li>Built reports in PCS TMS for clients and senior engineers.</li>
+        </ul></div>
+      <div class="reveal"><h3>Pharmacy Clerk &amp; Technical Support · Safesave Pharmacy</h3><div class="meta">Yuba City, CA · March 2020 – Present · part time</div>
+        <ul>
+          <li>Primary technical resource for 4 staff across 2 workstations, explaining fixes in plain language.</li>
+          <li>Traced recurring WiFi drops to a rogue device causing DHCP conflicts, and resolved it in one night.</li>
+          <li>Entered and verified 30–100 prescriptions a day in a regulated environment.</li>
+        </ul></div>
+    </div>
+  </div>
+  <div id="skills">
+    <h2 class="reveal">Toolkit</h2><p class="sub reveal">What I reach for.</p>
+    <div class="reveal sk"><h4>Languages</h4><div class="chips"><span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">SQL</span><span class="chip">Java</span><span class="chip">C / C++ (coursework)</span></div></div>
+    <div class="reveal sk"><h4>Frameworks &amp; tools</h4><div class="chips"><span class="chip">FastAPI</span><span class="chip">REST APIs</span><span class="chip">Claude API</span><span class="chip">Pandas</span><span class="chip">pytest</span><span class="chip">Git / GitHub</span><span class="chip">Render</span><span class="chip">Samsara API</span><span class="chip">Excel / Sheets</span></div></div>
+    <div class="reveal sk"><h4>Credentials</h4>
+      <div class="cred">B.S. Computer Science, UC Davis<small>2021 – 2025</small></div>
+      <div class="cred">FINRA Securities Industry Essentials (SIE)<small>Passed July 2026</small></div>
+      <div class="cred">California Life Insurance Producer License<small>Active through June 2028</small></div>
+    </div>
+  </div>
+</div></section>
+
+<footer id="contact"><div class="wrap">
+  <h2 class="reveal">Let's talk.</h2>
+  <p class="sub reveal" style="margin:0 auto 24px">Open to solutions, software and data roles. Based in Yuba City, CA.</p>
+  <div class="cta reveal"><a class="btn p" href="mailto:kennethtang383@gmail.com">kennethtang383@gmail.com</a><a class="btn" href="https://linkedin.com/in/kennethtang530" target="_blank" rel="noopener">LinkedIn</a><a class="btn" href="https://github.com/Kenny5302" target="_blank" rel="noopener">GitHub</a></div>
+</div></footer>
+
+<div id="ov" role="dialog" aria-modal="true" aria-label="Project walkthrough"><div class="panel"><button class="x" id="close" aria-label="Close">×</button><div id="body"></div></div></div>
+
+<!-- ============ project templates ============ -->
+<template id="t-sutter">
+  <h2>Sutter Assist <span class="status">built · not yet live</span></h2>
+  <p class="one">Local shops lose customers to <b>missed calls</b>. This answers instantly, <b>only from facts the owner approved</b>, and hands the owner a lead.</p>
+  <div class="stage"><h4>① A conversation, step by step <span style="color:var(--mute);text-transform:none;letter-spacing:0">(illustrative)</span></h4>
+    <div class="chat" id="chat"></div>
+    <div class="ctl"><button class="btn" id="replay">↻ Replay</button></div>
+  </div>
+  <div class="stage"><h4>② Why it's trustworthy: measured, not assumed</h4>
+    <p class="note" style="margin:0 0 14px">I ran live model evaluations that sample each scenario repeatedly to measure failure rates, then fixed what failed. Each dot is one reply.</p>
+    <div class="cmp">
+      <div><div class="cap">Invented answers about services the shop doesn't list</div>
+        <div class="big bad">3 in 6</div><div class="dots" data-bad="3" data-n="6"></div>
+        <div class="big ok" style="margin-top:18px">0 in 16</div><div class="dots" data-bad="0" data-n="16"></div></div>
+      <div><div class="cap">Unwanted phrasing</div>
+        <div class="big bad">3 in 8</div><div class="dots" data-bad="3" data-n="8"></div>
+        <div class="big ok" style="margin-top:18px">0 in 12</div><div class="dots" data-bad="0" data-n="12"></div></div>
+    </div>
+    <p class="note">Top row: before. Bottom row: after.</p>
+  </div>
+  <div class="pts">
+    <div class="pt"><b>Each client = one YAML file</b>A validated config per business, plus a script that drafts it from their website.</div>
+    <div class="pt"><b>3 languages</b>English, Spanish and Punjabi, with safety rules for emergencies and crisis messages.</div>
+    <div class="pt"><b>150+ automated tests</b>pytest with a fake model client, plus opt-in live evaluations.</div>
+    <div class="pt"><b>Hardened deploy</b>Render behind Cloudflare, rate limits, salted IP hashing. Caught a proxy-header issue that would have let visitors spoof their address to dodge limits.</div>
+  </div>
+  <p class="note">Status: built, not yet live. No pilots or customers yet; a landing page and cold outreach to local businesses have started.</p>
+  <p style="margin-top:16px"><a class="btn" href="https://github.com/Kenny5302/chatbot-template" target="_blank" rel="noopener">View on GitHub →</a></p>
+</template>
+
+<template id="t-stock">
+  <h2>Stock Helper</h2>
+  <p class="one">Financial data <b>right where you're reading</b>, without leaving the page. A Chrome extension talks to my own FastAPI server, which talks to Finnhub.</p>
+  <div class="stage"><h4>① Click "Request" and watch the data travel</h4>
+    <div class="browser">
+      <div class="pg">Any web page…<br><br>Apple (<mark>AAPL</mark>) shares rose after the company announced…</div>
+      <div class="sd" id="sd"><div class="sk-l" style="width:40%;background:var(--line)"></div><div class="sk-l" style="width:90%"></div><div class="sk-l" style="width:70%"></div><div class="sk-l" style="width:80%"></div></div>
+    </div>
+    <div class="flow" id="fl">
+      <div class="fn" data-i="0"><b>Extension</b><small>content script</small></div><div class="fa"><i></i></div>
+      <div class="fn" data-i="1"><b>FastAPI</b><small>my server</small></div><div class="fa"><i></i></div>
+      <div class="fn" data-i="2"><b>Cache</b><small>in-memory · TTL</small></div><div class="fa"><i></i></div>
+      <div class="fn" data-i="3"><b>Finnhub</b><small>REST API</small></div>
+    </div>
+    <div class="res" id="res" style="min-height:56px;line-height:1.5">Press <b>Request AAPL</b> and I'll narrate each step. The bars in the page's side panel are placeholders for the real data it shows.</div>
+    <div class="ctl"><button class="btn" id="req">⚡ Request AAPL</button><button class="btn" id="ttl">⏱ Let cache expire</button></div>
+  </div>
+  <div class="pts">
+    <div class="pt"><b>Cache with a TTL</b>Repeat requests within the window are answered instantly from memory: fresher than guessing, cheaper than re-fetching.</div>
+    <div class="pt"><b>Handles dynamic pages</b>A MutationObserver notices content that loads after the page does, so the panel keeps working.</div>
+    <div class="pt"><b>Remembers your state</b>Panel state persists via Chrome local storage, and the code is documented for extension.</div>
+  </div>
+  <p style="margin-top:16px"><a class="btn" href="https://github.com/Kenny5302/stock-helper" target="_blank" rel="noopener">View on GitHub →</a></p>
+</template>
+
+<template id="t-digest">
+  <h2>Portfolio Digest</h2>
+  <p class="one">AI is great at words and risky with numbers. So <b>code does the math</b>, and <b>AI only writes the summary</b>, inside strict guardrails.</p>
+  <div class="stage"><h4>Run today's digest <span style="color:var(--mute);text-transform:none;letter-spacing:0">(sample data)</span></h4>
+    <div class="dg">
+      <div class="box math"><h5>① Pandas · deterministic</h5>
+        <table id="tb"><thead><tr><th>Holding</th><th>Weight</th><th>Return</th></tr></thead><tbody></tbody></table>
+        <div class="res" id="conc" style="margin-top:10px"></div>
+      </div>
+      <div class="box ai"><h5>② Claude · writes the words</h5>
+        <div class="dgtxt" id="dgtxt">Waiting for the numbers…</div>
+        <div class="guard"><span>fixed structure</span><span>no invented figures</span><span>no financial advice</span><span>no trade recommendations</span></div>
+      </div>
+    </div>
+    <div class="ctl"><button class="btn" id="run">▶ Generate digest</button></div>
+    <p class="note">Weights, returns and concentration are computed live in this page from the sample CSV, the same kind of calculation the tool does. The model gets the finished numbers; it never calculates them. Each digest is saved with its date, building a reviewable history.</p>
+  </div>
+  <p style="margin-top:16px"><a class="btn" href="https://github.com/Kenny5302/trading-digest" target="_blank" rel="noopener">View on GitHub →</a></p>
+</template>
+
+<template id="t-lstore">
+  <h2>L-Store Database</h2>
+  <p class="one">A column-store database engine built with a <b>team of 4</b>. My focus: the <b>query layer, table architecture and indexing</b>, including how <b>updates never overwrite</b>.</p>
+  <div class="stage"><h4>① Updating a record, the L-Store way</h4>
+    <p class="note" style="margin:0 0 12px">Instead of rewriting a row, an update appends a small <i>tail record</i>, and an <i>indirection pointer</i> on the base record is pointed at the newest one. Old versions stay linked.</p>
+    <div class="rows" id="rows"></div>
+    <div class="ctl"><button class="btn" id="upd">✎ Update this record</button><button class="btn" id="rst">↺ Reset</button></div>
+  </div>
+  <div class="stage"><h4>② B-Tree index: skip the full scan</h4>
+    <div class="tree" id="tree"></div>
+    <div class="ctl"><button class="btn" id="look">🔎 Look up key 42</button><button class="btn" id="range">↔ Range query 20–60</button></div>
+    <div class="res" id="tres">A lookup walks root → leaf instead of scanning every record.</div>
+  </div>
+  <div class="pts">
+    <div class="pt"><b>Query operations</b>Insert, select, update and delete.</div>
+    <div class="pt"><b>Record model</b>Append-based updates with tail records and indirection pointers to track versions.</div>
+    <div class="pt"><b>Indexing</b>B-Tree for fast lookups and range queries.</div>
+  </div>
+  <p class="note">Team project, UC Davis, Feb–Aug 2025. Four contributors; the sections above are the parts I worked on.</p>
+  <p style="margin-top:16px"><a class="btn" href="https://github.com/apadhi-ucd/ecs165a" target="_blank" rel="noopener">View on GitHub →</a></p>
+</template>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* typing roles */
+(async()=>{
+  const roles=["Software engineering","Solutions engineering","API integrations","Data & analytics"],el=$('#role');
+  if(reduce){el.textContent=roles.join(' · ');return}
+  for(let i=0;;i=(i+1)%roles.length){
+    for(const c of roles[i]){el.textContent+=c;await sleep(55)}
+    await sleep(1400);
+    while(el.textContent){el.textContent=el.textContent.slice(0,-1);await sleep(28)}
+    await sleep(250);
+  }
+})();
+
+/* hero network canvas */
+(()=>{
+  const c=$('#net'),x=c.getContext('2d');let w,h,pts=[],m={x:-999,y:-999};
+  const size=()=>{w=c.width=c.offsetWidth;h=c.height=c.offsetHeight;pts=Array.from({length:Math.min(70,w/16)},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35}))};
+  size();addEventListener('resize',size);
+  c.parentElement.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();m={x:e.clientX-r.left,y:e.clientY-r.top}});
+  (function f(){
+    x.clearRect(0,0,w,h);
+    for(const p of pts){
+      if(!reduce){p.x+=p.vx;p.y+=p.vy}
+      if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;
+      x.fillStyle='#5eead4';x.beginPath();x.arc(p.x,p.y,1.6,0,7);x.fill();
+    }
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+        if(d<120){x.strokeStyle=`rgba(139,124,255,${.35*(1-d/120)})`;x.beginPath();x.moveTo(pts[i].x,pts[i].y);x.lineTo(pts[j].x,pts[j].y);x.stroke()}
+      }
+      const d=Math.hypot(pts[i].x-m.x,pts[i].y-m.y);
+      if(d<160){x.strokeStyle=`rgba(94,234,212,${.6*(1-d/160)})`;x.beginPath();x.moveTo(pts[i].x,pts[i].y);x.lineTo(m.x,m.y);x.stroke()}
+    }
+    requestAnimationFrame(f);
+  })();
+})();
+
+/* cursor glow, card spotlight, reveal */
+addEventListener('mousemove',e=>{const g=$('#glow');g.style.left=e.clientX+'px';g.style.top=(e.clientY+scrollY)+'px'});
+$$('.card').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+$$('.reveal').forEach(el=>io.observe(el));
+
+/* modal */
+const ov=$('#ov'),body=$('#body');let token=0,lastFocus;
+const inits={sutter:initSutter,stock:initStock,digest:initDigest,lstore:initLstore};
+function open(id){
+  lastFocus=document.activeElement;token++;
+  body.replaceChildren($('#t-'+id).content.cloneNode(true));
+  ov.classList.add('show');document.body.style.overflow='hidden';
+  requestAnimationFrame(()=>ov.classList.add('vis'));ov.scrollTop=0;
+  inits[id](token);$('#close').focus();
+}
+function close(){token++;ov.classList.remove('vis');document.body.style.overflow='';setTimeout(()=>{ov.classList.remove('show');body.replaceChildren()},300);lastFocus&&lastFocus.focus()}
+$$('.card').forEach(c=>c.addEventListener('click',()=>open(c.dataset.p)));
+$('#close').addEventListener('click',close);
+ov.addEventListener('click',e=>{if(e.target===ov)close()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&ov.classList.contains('show'))close()});
+
+/* ---- Sutter Assist ---- */
+function initSutter(t){
+  const chat=$('#chat');
+  const script=[
+    ['u','Hi, do you fix air conditioners?'],
+    ['a','Yes, AC repair and maintenance are on our service list. Want me to take your name and number so the owner can call you back?'],
+    ['u','Sure. Also, do you service boat motors?'],
+    ['a',"I don't have boat motors on this shop's list, so I don't want to guess. I can pass your question to the owner along with your number."],
+    ['sys','✓ Lead captured · ✉ owner emailed a callback request'],
+  ];
+  async function play(){
+    chat.replaceChildren();
+    for(const [k,txt] of script){
+      if(t!==token)return;
+      await sleep(k==='u'?500:900);
+      const d=document.createElement('div');d.className='msg '+k;d.textContent=txt;chat.append(d);
+      requestAnimationFrame(()=>d.classList.add('in'));
+    }
+  }
+  $('#replay').onclick=()=>{token=++token;t=token;play()};
+  play();
+  const io2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('go'),100)}}),{root:ov,threshold:.3});
+  $$('.dots').forEach(d=>{
+    const n=+d.dataset.n,bad=+d.dataset.bad;
+    for(let i=0;i<n;i++){const s=document.createElement('span');s.className='dot'+(i<bad?' bad':'');s.style.transitionDelay=i*60+'ms';d.append(s)}
+    io2.observe(d);
+  });
+}
+
+/* ---- Stock Helper ---- */
+function initStock(t){
+  const nodes=$$('#fl .fn'),arrows=$$('#fl .fa i'),res=$('#res'),sd=$('#sd');
+  let cached=false,busy=false;
+  const hot=(i,on)=>nodes[i].classList.toggle('hot',on);
+  const go=i=>{arrows[i].classList.remove('go');void arrows[i].offsetWidth;arrows[i].classList.add('go')};
+  const skeleton=()=>{sd.innerHTML='<div class="sk-l" style="width:40%;background:var(--line)"></div><div class="sk-l" style="width:90%"></div><div class="sk-l" style="width:70%"></div><div class="sk-l" style="width:80%"></div>'};
+  const filled=()=>{sd.innerHTML='<div class="sk-l full" style="width:40%"></div><div class="sk-l full v2" style="width:90%"></div><div class="sk-l full" style="width:70%"></div><div class="sk-l full v2" style="width:80%"></div>'};
+  const say=h=>{res.innerHTML=h};
+  const title=(txt)=>{let l=$('#sdt');if(!l){l=document.createElement('div');l.id='sdt';l.style.cssText='font:600 11px ui-monospace,monospace;color:var(--a);margin-bottom:4px';sd.prepend(l)}l.textContent=txt};
+  $('#req').onclick=async()=>{
+    if(busy)return;busy=true;skeleton();title('AAPL · loading…');
+    say('<b>① You see "AAPL" on a page.</b> The extension asks my server for AAPL\'s data.');
+    hot(0,true);await sleep(1400);go(0);await sleep(700);hot(0,false);hot(1,true);
+    say('<b>② My FastAPI server receives the request</b> and checks its cache first.');await sleep(1500);go(1);await sleep(700);hot(1,false);hot(2,true);
+    if(t!==token)return;
+    if(cached){
+      say('<b>③ <span class="hit" style="color:var(--ok)">CACHE HIT</span>:</b> AAPL was fetched recently, so the server answers from memory. <b>Finnhub is never called</b>: faster, and saves API usage.');
+      await sleep(2600);
+    }else{
+      say('<b>③ <span style="color:var(--amber)">CACHE MISS</span>:</b> nothing stored for AAPL, so the server has to ask Finnhub.');await sleep(1700);
+      hot(2,false);go(2);await sleep(700);hot(3,true);
+      say('<b>④ Finnhub replies</b> with the financial data. The server saves a copy with a <i>time-to-live</i> (how long it stays fresh) and passes it back.');await sleep(2400);cached=true;
+    }
+    if(t!==token)return;
+    nodes.forEach((_,i)=>hot(i,false));filled();title('AAPL · loaded');
+    say('<b>⑤ The data appears in the side panel on the page.</b> Press Request again to see a cache hit, or expire the cache to start over.');busy=false;
+  };
+  $('#ttl').onclick=()=>{cached=false;res.innerHTML='Cache expired. The next request will fetch fresh data.'};
+}
+
+/* ---- Portfolio Digest ---- */
+function initDigest(t){
+  const H=[['Alpha Corp',12000,13200],['Beta Inc',8000,7600],['Gamma Ltd',20000,23000],['Delta Co',10000,10100]]; // name, cost, value (sample)
+  const tot=H.reduce((s,h)=>s+h[2],0),tb=$('#tb tbody');
+  const rows=H.map(([n,c,v])=>({n,w:v/tot*100,r:(v-c)/c*100}));
+  const top=rows.reduce((a,b)=>b.w>a.w?b:a);
+  rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.n}</td><td>${r.w.toFixed(1)}%<div class="bar" data-w="${r.w}"></div></td><td style="color:${r.r>=0?'var(--ok)':'var(--warn)'}">${r.r>=0?'+':''}${r.r.toFixed(1)}%</td>`;
+    tb.append(tr);
+  });
+  const text=`PORTFOLIO DIGEST\n\nSummary: Across ${rows.length} holdings, ${rows.filter(r=>r.r>0).length} are above cost and ${rows.filter(r=>r.r<0).length} is below.\n\nConcentration: ${top.n} is the largest position at ${top.w.toFixed(1)}% of the portfolio.\n\nNotes: Figures are as supplied by the calculation layer. This digest is informational only.`;
+  let busy=false;
+  $('#run').onclick=async()=>{
+    if(busy)return;busy=true;
+    $$('.bar').forEach(b=>b.style.width='0');$('#conc').textContent='';$('#dgtxt').textContent='';
+    await sleep(200);
+    $$('.bar').forEach(b=>b.style.width=Math.min(100,b.dataset.w*2)+'%');
+    await sleep(900);
+    $('#conc').innerHTML=`Concentration risk: <b style="color:var(--amber)">${top.n} · ${top.w.toFixed(1)}%</b>`;
+    await sleep(500);
+    for(const ch of text){if(t!==token)return;$('#dgtxt').textContent+=ch;if(!reduce)await sleep(14)}
+    busy=false;
+  };
+}
+
+/* ---- L-Store ---- */
+function initLstore(t){
+  const rows=$('#rows');let ver;
+  function reset(){ver=0;draw()}
+  function draw(){
+    rows.replaceChildren();
+    const mk=(cls,label,val,ptr,d)=>{const e=document.createElement('div');e.className='rec '+cls;e.style.setProperty('--d',d||0);e.innerHTML=`<b>${label}</b><span>value: ${val}</span><span class="ptr">${ptr}</span>`;return e};
+    rows.append(mk('base','BASE RID 1','—',ver?`→ indirection: T${ver}`:'→ indirection: (none)'));
+    const vals=['','Grade: B','Grade: B+','Grade: A-','Grade: A','Grade: A+'];
+    const base=rows.firstChild;base.children[1].textContent='value: Grade: C (original)';
+    for(let i=ver;i>=1;i--){
+      rows.append(mk('tail'+(i===ver?' cur':''),`TAIL T${i}`,vals[Math.min(i,5)]||('v'+i),i>1?`→ prev: T${i-1}`:'→ prev: base',ver-i+1));
+    }
+    $('#upd').disabled=ver>=5;
+  }
+  $('#upd').onclick=()=>{ver++;draw()};
+  $('#rst').onclick=reset;reset();
+  /* tree */
+  const tree=$('#tree');
+  const L=[[10,20],[25,30],[42,50],[55,60],[70,90]];
+  tree.innerHTML=`<div class="lv"><div class="nd" id="n-r">[ 25 | 55 ]</div></div><div class="lv"><div class="nd" id="n-a">[ 20 ]</div><div class="nd" id="n-b">[ 42 | 50 ]</div><div class="nd" id="n-c">[ 70 ]</div></div><div class="lv">${L.map((l,i)=>`<div class="nd" id="l${i}">${l.join(' · ')}</div>`).join('')}</div>`;
+  const clear=()=>$$('.nd',tree).forEach(n=>n.classList.remove('on','rng'));
+  let tk=0;
+  $('#look').onclick=async()=>{
+    const my=++tk;clear();$('#tres').textContent='Root: 42 is between 25 and 55 → middle branch…';
+    for(const id of ['n-r','n-b','l2']){if(my!==tk||t!==token)return;$('#'+id).classList.add('on');await sleep(700)}
+    $('#tres').innerHTML='<b style="color:var(--ok)">Found in 3 steps</b> instead of scanning every record.';
+  };
+  $('#range').onclick=async()=>{
+    const my=++tk;clear();$('#tres').textContent='Find the start of the range, then walk the linked leaves…';
+    $('#n-r').classList.add('on');await sleep(500);
+    for(const id of ['l0','l1','l2','l3']){if(my!==tk||t!==token)return;$('#'+id).classList.add('rng');await sleep(450)}
+    $('#tres').innerHTML='<b style="color:var(--b)">Range 20–60</b> collected by following neighbouring leaves.';
+  };
+}
+</script>
+</body>
+</html>
